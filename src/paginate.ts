@@ -243,7 +243,16 @@ const countQuery = async <T>(
 
   const { value } = await queryBuilder.connection
     .createQueryBuilder()
-    .select('COUNT(*)', 'value')
+    .select(
+      `COUNT(DISTINCT ${totalQueryBuilder
+        .getQuery()
+        .split(',')[0]
+        .split('AS')
+        .pop()
+        .trim()
+        .replace(/['"]+/g, '')})`,
+      'value',
+    )
     .from(`(${totalQueryBuilder.getQuery()})`, 'uniqueTableAlias')
     .setParameters(queryBuilder.getParameters())
     .getRawOne<{ value: string }>();
