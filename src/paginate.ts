@@ -249,8 +249,7 @@ const countQuery = async <T>(
         .split(',')[0]
         .split('AS')
         .pop()
-        .trim()
-        .replace(/['"]+/g, '')})`,
+        .trim()})`,
       'value',
     )
     .from(`(${totalQueryBuilder.getQuery()})`, 'uniqueTableAlias')
